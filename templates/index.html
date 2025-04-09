@@ -1,0 +1,125 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <nav>
+        <div id=hello>
+            <img id=logo1 src="{% static 'images/icon1.png' %}">
+
+            {% if user.is_authenticated %}
+            <i id=space class="fas fa-user-friends"> {{user.username}} </i>
+            {% endif %}
+
+
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'logout' %}">
+                {% csrf_token %}
+
+                <button class="logout_button" type="submit"
+                    style="margin-top: 15px; border: 1px solid red;">Logout</button>
+
+            </form>
+            {% endif %}
+
+
+
+        </div>
+    </nav>
+    <div id=read_more>
+        <p><a href="{% url 'create_post' %}">
+
+                <i class="fas fa-plus-circle"> Create Post</i>
+            </a>
+        </p>
+
+    </div>
+    <div id=content>
+
+
+        <div id=middle>
+
+            {% for post in posts %}
+
+            <div id=box22>
+                <p id=num3>{{post.user}}</p>
+
+                <p id=num1>created at : {{post.created_at}}</p>
+                <br>
+
+                <h4 id=num7>{{post.question}}</h4>
+                <p id=num8>{{post.description}}</p>
+                {% if post.image %}
+
+                <img id=num9 src='{{post.image.url}}'>
+                {% endif %}
+
+
+                <div id="bottom" class="toggle-answers">
+
+                    <p><a href="{% url 'get_post_answer' post.id %}">See Answers</a></p>
+                    <i class="fas fa-level-up-alt"></i>
+                </div>
+
+                <div class="answers-container {% if post.id == selected_post_id %}show{% endif %} ">
+                    {% if post.id == selected_post_id %}
+                    <h4>Answers:</h4>
+                    {% if anserws %}
+
+                    <ul>
+                        {% for answer in anserws %}
+                        <div class="card" style="border: 1px solid grey; margin: 10px; padding: 10px;">
+                            <p>Answered by: {{ answer.user.username }}</p>
+                            <p>Answered at: {{ answer.created_at }}</p>
+
+                            <li>{{ answer.answer }}</li>
+                            {% if answer.image %}
+                            <img id=num9 src='{{answer.image.url}}'>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <p>No answers yet.</p>
+                    {% endif %}
+                    {% endif %}
+                </div>
+
+
+            </div>
+
+            <div>
+                <a href="{% url 'add_answer' post.id %}"><i class="fas fa-plus-circle"></i>Add answer</a>
+
+            </div>
+
+            {% endfor %}
+
+
+
+
+        </div>
+
+
+        <script>
+
+        </script>
+
+
+</body>
+
+</html>

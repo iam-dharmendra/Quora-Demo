@@ -1,0 +1,53 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Simple Reistration Form</title>
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body>
+    <form method="post" id="blogForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+          
+          <h1>Create   Post</h1>
+          {% if form.errors %}
+         
+          <div style="color: red;"> {{form.errors}}</div>
+          {% endif %}  
+
+          
+            
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="question" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="image">Images:</label>
+                    <input type="file" id="images" name="image"  accept="*.png *.jpg *.jpeg">
+                    
+                </div>
+                <button type="submit" class="submit-button">Publish Post</button>
+         
+           
+        
+        </div>
+      </form>
+
+
+  
+
+</div>
+</body>
+</html>
